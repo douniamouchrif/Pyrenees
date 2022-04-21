@@ -17,7 +17,6 @@ cursor.execute('''
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS récolte (
     id_r INTEGER PRIMARY KEY AUTOINCREMENT,
-    ID TEXT NOT NULL,
     harv_num REAL,
     DD REAL,
     harv REAL,
@@ -81,4 +80,14 @@ cursor.execute('''
 ''')
 
 data = pd.read_csv('Repro_IS.csv', sep=';')
-data.to_sql('Repro_data', con, if_exists='replace', index=False)
+data.to_sql('Repro_data', connexion, if_exists='replace', index=False)
+
+arbre_list = ['code', 'VH', 'H', 'SH']
+a = data[arbre_list]
+
+recolte_list = ['harv_num', 'DD', 'harv', 'Year', 'Date', 'Mtot', 'Ntot',
+                'Ntot1', 'oneacorn', 'tot_Germ', 'M_Germ', 'N_Germ', 'rate_Germ']
+r = data[recolte_list]
+
+station_list = ['nom', 'range', 'altitude']
+s = data[station_list]
