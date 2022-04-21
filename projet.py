@@ -79,3 +79,6 @@ cursor.execute('''
     FOREIGN KEY (vallee_id) REFERENCES vallee (id_v)
     );
 ''')
+
+data = pd.read_csv('Repro_IS.csv', sep=';')
+data.to_sql('Repro_data', con, if_exists='replace', index=False)
