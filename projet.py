@@ -94,3 +94,8 @@ s = data[station_list]
 
 vallee_list = ['nom']
 v = data[vallee_list]
+
+r.to_sql('récolte', connexion, if_exists='append', index=False)
+a.to_sql('arbre', connexion, if_exists='append', index=False)
+s.to_sql('récolte', connexion, if_exists='append', index=False)
+v.to_sql('arbre', connexion, if_exists='append', index=False)
