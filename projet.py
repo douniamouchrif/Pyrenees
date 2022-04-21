@@ -91,3 +91,6 @@ r = data[recolte_list]
 
 station_list = ['nom', 'range', 'altitude']
 s = data[station_list]
+
+vallee_list = ['nom']
+v = data[vallee_list]
