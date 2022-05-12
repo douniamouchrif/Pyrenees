@@ -82,6 +82,6 @@ with open('Repro_IS.csv', 'r') as csvfile:
                 row['H'] = "NULL"
             if row['SH'] == "NA":
                 row['SH'] = "NULL"
-            cursor.execute('''INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}","{}","{}","{}")'''.format(variable2_id,
-                                                                                                                      row['code'], row['VH'], row['H'], row['SH']))
+            cursor.execute('''INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}","{}","{}","{}")'''.format(
+                variable2_id, row['code'], row['VH'], row['H'], row['SH']))
             variable2_id = variable2_id+1
