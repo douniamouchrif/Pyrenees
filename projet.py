@@ -30,7 +30,7 @@ cursor.execute('''
     VH REAL,
     H REAL,
     SH REAL,
-    FOREIGN KEY (recolte_id) REFERENCES recolte (id_r)
+    FOREIGN KEY (id_r) REFERENCES recolte (recolte_id)
     );
 ''')
 
