@@ -59,7 +59,8 @@ cursor = connexion.cursor()
 with open('Repro_IS.csv', 'r') as csvfile:
     reader = csvfile.DictReader(csvfile, delimiter=';')
 
-    variable_id = 1
+    variable1_id = 1
+    variable2_id = 1
 
     for row in reader:
 
@@ -70,9 +71,10 @@ with open('Repro_IS.csv', 'r') as csvfile:
         result2 = cursor.execute(query2)
         if result1.fetchone() == None:
             cursor.execute('INSERT INTO station (id_s , nom , range , altitude) VALUES ({},{},{},{})'.format(
-                variable_id, row['nom'], row['range'], row['altitude']))
-            variable_id = variable_id+1
+                variable1_id, row['nom'], row['range'], row['altitude']))
+            variable1_id = variable1_id+1
 
         if result2.fetchone() == None:
-            cursor.execute(
-                'INSERT INTO arbre (id_a , code , VH , S , SH) VALUES ()')
+            cursor.execute('INSERT INTO arbre (id_a , code , VH , S , SH) VALUES ({},{},{},{})'.format(variable2_id,
+                                                                                                       row['code'], row['VH'], row['S'], row[SH]))
+            variable2_id = variable2_id+1
