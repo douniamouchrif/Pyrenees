@@ -14,7 +14,7 @@ cursor.execute('''
 
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS station (
-    id_s INTEGER PRIMARY KEY AUTOINCREMENT, 
+    id_s INTEGER PRIMARY KEY AUTOINCREMENT,
     nom TEXT NOT NULL,
     range REAL,
     altitude REAL,
@@ -46,8 +46,8 @@ cursor.execute('''
     Ntot1 REAL,
     oneacorn REAL,
     tot_Germ REAL,
-    M_Germ REAL, 
-    N_Germ REAL, 
+    M_Germ REAL,
+    N_Germ REAL,
     rate_Germ REAL,
     arbre_id INT REFERENCES arbre(id_a)
     );
@@ -88,29 +88,31 @@ with open('Repro_IS.csv', 'r') as csvfile:
             variable2_id = variable2_id+1
 
         if row['harv_num'] == "NA":
-            row['harv_num'] == "NULL"
+            row['harv_num'] = "NULL"
         if row['DD'] == "NA":
-            row['DD'] == "NULL"
+            row['DD'] = "NULL"
         if row['harv'] == "NA":
-            row['harv'] == "NULL"
+            row['harv'] = "NULL"
+        if row['Date'] == "NA":
+            row['Date'] = "NULL"
         if row['Mtot'] == "NA":
-            row['Mtot'] == "NULL"
+            row['Mtot'] = "NULL"
         if row['Ntot'] == "NA":
-            row['Ntot'] == "NULL"
+            row['Ntot'] = "NULL"
         if row['Ntot1'] == "NA":
-            row['Ntot1'] == "NULL"
+            row['Ntot1'] = "NULL"
         if row['oneacorn'] == "NA":
-            row['oneacorn'] == "NULL"
+            row['oneacorn'] = "NULL"
         if row['tot_Germ'] == "NA":
-            row['tot_Germ'] == "NULL"
+            row['tot_Germ'] = "NULL"
         if row['M_Germ'] == "NA":
-            row['M_Germ'] == "NULL"
+            row['M_Germ'] = "NULL"
         if row['N_Germ'] == "NA":
-            row['N_Germ'] == "NULL"
+            row['N_Germ'] = "NULL"
         if row['rate_Germ'] == "NA":
-            row['rate_Germ'] == "NULL"
-        cursor.execute('''INSERT INTO recolte (id_r , harv_num , DD , harv , Year , Date , Mtot , Ntot , Ntot1 , oneacorn , tot_Germ , M_Germ , N_Germ , rate_Germ) 
-        VALUES ({},"{}","{}","{}",{},{},"{}","{}","{}","{}","{}","{}","{}","{}"])'''.format(
+            row['rate_Germ'] = "NULL"
+        cursor.execute('''INSERT INTO recolte (id_r, harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ)
+        VALUES({}, "{}", "{}", "{}", {}, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'''.format(
             variable3_id, row['harv_num'], row['DD'], row['harv'], row['Year'], row[
                 'Date'], row['Mtot'], row['Ntot'], row['Ntot1'], row['oneacorn'], row['tot_Germ'],
             row['M_Germ'], row['N_Germ'], row['rate_Germ']))
