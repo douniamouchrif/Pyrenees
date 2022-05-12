@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+import csv
 
 connexion = sqlite3.connect('Pyrenees.db')
 cursor = connexion.cursor()
@@ -57,21 +58,21 @@ cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (2 , Luz)')'''
 
 cursor = connexion.cursor()
 with open('Repro_IS.csv', 'r') as csvfile:
-    reader = csvfile.DictReader(csvfile, delimiter=';')
+    reader = csv.DictReader(csvfile, delimiter=';')
 
     variable1_id = 1
     variable2_id = 1
 
     for row in reader:
 
-        query1 = 'SELECT id_s INTO station WHERE nom="{}"'.format(
+        query1 = 'SELECT id_s FROM station WHERE nom="{}"'.format(
             row['Station'])
-        query2 = 'SELECT id_a INTO arbre WHERE code="{}"'.format(row['code'])
+        query2 = 'SELECT id_a FROM arbre WHERE code="{}"'.format(row['code'])
         result1 = cursor.execute(query1)
         result2 = cursor.execute(query2)
         if result1.fetchone() == None:
             cursor.execute('INSERT INTO station (id_s , nom , range , altitude) VALUES ({},{},{},{})'.format(
-                variable1_id, row['station'], row['range'], row['altitude']))
+                variable1_id, row['Station'], row['Range'], row['Altitude']))
             variable1_id = variable1_id+1
 
         if result2.fetchone() == None:
