@@ -5,6 +5,34 @@ connexion = sqlite3.connect('Pyrenees.db')
 cursor = connexion.cursor()
 
 cursor.execute('''
+    CREATE TABLE IF NOT EXISTS vallee (
+    id_v INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom TEXT NOT NULL
+    );
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS station (
+    id_s INTEGER PRIMARY KEY AUTOINCREMENT, 
+    nom TEXT NOT NULL,
+    range REAL,
+    altitude REAL,
+    vallee_id INT REFERENCES vallee(id_v)
+    );
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS arbre (
+    id_a INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    VH REAL,
+    H REAL,
+    SH REAL,
+    station_id INT REFERENCES station(id_s)
+    );
+''')
+
+cursor.execute('''
     CREATE TABLE IF NOT EXISTS recolte (
     id_r INTEGER PRIMARY KEY AUTOINCREMENT,
     harv_num REAL,
@@ -19,41 +47,13 @@ cursor.execute('''
     tot_Germ REAL,
     M_Germ REAL, 
     N_Germ REAL, 
-    rate_Germ REAL
+    rate_Germ REAL,
+    arbre_id INT REFERENCES arbre(id_a)
     );
 ''')
 
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS arbre (
-    id_a INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL,
-    VH REAL,
-    H REAL,
-    SH REAL,
-    FOREIGN KEY (id_r) REFERENCES recolte (recolte_id)
-    );
-''')
-
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS station (
-    id_s INTEGER PRIMARY KEY AUTOINCREMENT, 
-    nom TEXT NOT NULL,
-    range REAL,
-    altitude REAL,
-    FOREIGN KEY (arbre_id) REFERENCES arbre (id_a)
-    );
-''')
-
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS vallee (
-    id_v INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES station (id_s)
-    );
-''')
-
-cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (1 , Ossau)')
-cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (2 , Luz)')
+'''cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (1 , Ossau)')
+cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (2 , Luz)')'''
 
 cursor = connexion.cursor()
 with open('Repro_IS.csv', 'r') as csvfile:
