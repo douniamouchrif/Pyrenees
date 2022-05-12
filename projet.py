@@ -71,11 +71,17 @@ with open('Repro_IS.csv', 'r') as csvfile:
         result1 = cursor.execute(query1)
         result2 = cursor.execute(query2)
         if result1.fetchone() == None:
-            cursor.execute('INSERT INTO station (id_s , nom , range , altitude) VALUES ({},"{}",{},{})'.format(
+            cursor.execute('''INSERT INTO station (id_s , nom , range , altitude) VALUES ({},"{}",{},{})'''.format(
                 variable1_id, row['Station'], row['Range'], row['Altitude']))
             variable1_id = variable1_id+1
 
         if result2.fetchone() == None:
-            cursor.execute('INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}",{},{},{})'.format(variable2_id,
-                                                                                                            row['code'], row['VH'], row['H'], row['SH']))
+            if row['VH'] == "NA":
+                row['VH'] = "NULL"
+            if row['H'] == "NA":
+                row['H'] = "NULL"
+            if row['SH'] == "NA":
+                row['SH'] = "NULL"
+            cursor.execute('''INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}","{}","{}","{}")'''.format(variable2_id,
+                                                                                                                      row['code'], row['VH'], row['H'], row['SH']))
             variable2_id = variable2_id+1
