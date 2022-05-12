@@ -5,17 +5,7 @@ connexion = sqlite3.connect('Pyrenees.db')
 cursor = connexion.cursor()
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS arbre (
-    id_a INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL,
-    VH REAL,
-    H REAL,
-    SH REAL
-    );
-''')
-
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS récolte (
+    CREATE TABLE IF NOT EXISTS recolte (
     id_r INTEGER PRIMARY KEY AUTOINCREMENT,
     harv_num REAL,
     DD REAL,
@@ -34,21 +24,55 @@ cursor.execute('''
 ''')
 
 cursor.execute('''
+    CREATE TABLE IF NOT EXISTS arbre (
+    id_a INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT NOT NULL,
+    VH REAL,
+    H REAL,
+    SH REAL,
+    FOREIGN KEY (recolte_id) REFERENCES recolte (id_r)
+    );
+''')
+
+cursor.execute('''
     CREATE TABLE IF NOT EXISTS station (
     id_s INTEGER PRIMARY KEY AUTOINCREMENT, 
     nom TEXT NOT NULL,
     range REAL,
-    altitude REAL
+    altitude REAL,
+    FOREIGN KEY (arbre_id) REFERENCES arbre (id_a)
     );
 ''')
 
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS vallee (
     id_v INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL
+    nom TEXT NOT NULL,
+    FOREIGN KEY (station_id) REFERENCES station (id_s)
     );
 ''')
 
+cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (1 , Ossau)')
+cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (2 , Luz)')
 
-data = pd.read_csv('Repro_IS.csv', sep=';')
-data.to_sql('Repro_data', connexion, if_exists='replace', index=False)
+cursor = connexion.cursor()
+with open('Repro_IS.csv', 'r') as csvfile:
+    reader = csvfile.DictReader(csvfile, delimiter=';')
+
+    variable_id = 1
+
+    for row in reader:
+
+        query1 = 'SELECT id_s INTO station WHERE nom="{}"'.format(
+            row['Station'])
+        query2 = 'SELECT id_a INTO arbre WHERE code="{}"'.format(row['code'])
+        result1 = cursor.execute(query1)
+        result2 = cursor.execute(query2)
+        if result1.fetchone() == None:
+            cursor.execute('INSERT INTO station (id_s , nom , range , altitude) VALUES ({},{},{},{})'.format(
+                variable_id, row['nom'], row['range'], row['altitude']))
+            variable_id = variable_id+1
+
+        if result2.fetchone() == None:
+            cursor.execute(
+                'INSERT INTO arbre (id_a , code , VH , S , SH) VALUES ()')
