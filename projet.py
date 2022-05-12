@@ -62,6 +62,7 @@ with open('Repro_IS.csv', 'r') as csvfile:
 
     variable1_id = 1
     variable2_id = 1
+    variable3_id = 1
 
     for row in reader:
 
@@ -85,6 +86,36 @@ with open('Repro_IS.csv', 'r') as csvfile:
             cursor.execute('''INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}","{}","{}","{}")'''.format(
                 variable2_id, row['code'], row['VH'], row['H'], row['SH']))
             variable2_id = variable2_id+1
+
+        if row['harv_num'] == "NA":
+            row['harv_num'] == "NULL"
+        if row['DD'] == "NA":
+            row['DD'] == "NULL"
+        if row['harv'] == "NA":
+            row['harv'] == "NULL"
+        if row['Mtot'] == "NA":
+            row['Mtot'] == "NULL"
+        if row['Ntot'] == "NA":
+            row['Ntot'] == "NULL"
+        if row['Ntot1'] == "NA":
+            row['Ntot1'] == "NULL"
+        if row['oneacorn'] == "NA":
+            row['oneacorn'] == "NULL"
+        if row['tot_Germ'] == "NA":
+            row['tot_Germ'] == "NULL"
+        if row['M_Germ'] == "NA":
+            row['M_Germ'] == "NULL"
+        if row['N_Germ'] == "NA":
+            row['N_Germ'] == "NULL"
+        if row['rate_Germ'] == "NA":
+            row['rate_Germ'] == "NULL"
+        cursor.execute('''INSERT INTO recolte (id_r , harv_num , DD , harv , Year , Date , Mtot , Ntot , Ntot1 , oneacorn , tot_Germ , M_Germ , N_Germ , rate_Germ) 
+        VALUES ({},"{}","{}","{}",{},{},"{}","{}","{}","{}","{}","{}","{}","{}"])'''.format(
+            variable3_id, row['harv_num'], row['DD'], row['harv'], row['Year'], row[
+                'Date'], row['Mtot'], row['Ntot'], row['Ntot1'], row['oneacorn'], row['tot_Germ'],
+            row['M_Germ'], row['N_Germ'], row['rate_Germ']))
+        variable3_id = variable3_id+1
+
 
 connexion.commit()
 connexion.close()
