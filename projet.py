@@ -53,8 +53,8 @@ cursor.execute('''
     );
 ''')
 
-'''cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (1 , Ossau)')
-cursor.execute('INSERT INTO vallee (id_v , nom) VALUES (2 , Luz)')'''
+cursor.execute('''INSERT INTO vallee (id_v , nom) VALUES (1 , 'Ossau')''')
+cursor.execute('''INSERT INTO vallee (id_v , nom) VALUES (2 , 'Luz')''')
 
 cursor = connexion.cursor()
 with open('Repro_IS.csv', 'r') as csvfile:
