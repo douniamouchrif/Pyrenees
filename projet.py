@@ -75,6 +75,6 @@ with open('Repro_IS.csv', 'r') as csvfile:
             variable1_id = variable1_id+1
 
         if result2.fetchone() == None:
-            cursor.execute('INSERT INTO arbre (id_a , code , VH , S , SH) VALUES ({},{},{},{})'.format(variable2_id,
-                                                                                                       row['code'], row['VH'], row['S'], row[SH]))
+            cursor.execute('INSERT INTO arbre (id_a , code , VH , S , SH) VALUES ({},{},{},{},{})'.format(variable2_id,
+                                                                                                          row['code'], row['VH'], row['S'], row['SH']))
             variable2_id = variable2_id+1
