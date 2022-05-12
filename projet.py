@@ -71,7 +71,7 @@ with open('Repro_IS.csv', 'r') as csvfile:
         result2 = cursor.execute(query2)
         if result1.fetchone() == None:
             cursor.execute('INSERT INTO station (id_s , nom , range , altitude) VALUES ({},{},{},{})'.format(
-                variable1_id, row['nom'], row['range'], row['altitude']))
+                variable1_id, row['station'], row['range'], row['altitude']))
             variable1_id = variable1_id+1
 
         if result2.fetchone() == None:
