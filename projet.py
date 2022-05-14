@@ -53,70 +53,43 @@ cursor.execute('''
     );
 ''')
 
-cursor.execute('''INSERT INTO vallee (id_v , nom) VALUES (1 , 'Ossau')''')
-cursor.execute('''INSERT INTO vallee (id_v , nom) VALUES (2 , 'Luz')''')
+cursor.execute('INSERT INTO vallee (nom) VALUES ("Ossau")')
+cursor.execute('INSERT INTO vallee (nom) VALUES ("Luz")')
+
+
+def verif(value):
+    if value == "NA":
+        return "null"
+    else:
+        return value
+
 
 cursor = connexion.cursor()
 with open('Repro_IS.csv', 'r') as csvfile:
     reader = csv.DictReader(csvfile, delimiter=';')
 
-    variable1_id = 1
-    variable2_id = 1
-    variable3_id = 1
-
     for row in reader:
 
-        query1 = 'SELECT id_s FROM station WHERE nom="{}"'.format(
+        query = 'SELECT id_s FROM station WHERE nom="{}"'.format(
             row['Station'])
-        query2 = 'SELECT id_a FROM arbre WHERE code="{}"'.format(row['code'])
-        result1 = cursor.execute(query1)
-        result2 = cursor.execute(query2)
-        if result1.fetchone() == None:
-            cursor.execute('''INSERT INTO station (id_s , nom , range , altitude) VALUES ({},"{}",{},{})'''.format(
-                variable1_id, row['Station'], row['Range'], row['Altitude']))
-            variable1_id = variable1_id+1
+        result = cursor.execute(query)
+        if result.fetchone() == None:
+            query = 'INSERT INTO station (nom , range , altitude) VALUES ("{}",{},{})'.format(
+                verif(row['Station']), verif(row['Range']), verif(row['Altitude']))
+            cursor.execute(query)
 
-        if result2.fetchone() == None:
-            if row['VH'] == "NA":
-                row['VH'] = "NULL"
-            if row['H'] == "NA":
-                row['H'] = "NULL"
-            if row['SH'] == "NA":
-                row['SH'] = "NULL"
-            cursor.execute('''INSERT INTO arbre (id_a , code , VH , H , SH) VALUES ({},"{}","{}","{}","{}")'''.format(
-                variable2_id, row['code'], row['VH'], row['H'], row['SH']))
-            variable2_id = variable2_id+1
+        query = 'SELECT id_a FROM arbre WHERE code="{}"'.format(row['code'])
+        result = cursor.execute(query)
+        if result.fetchone() == None:
+            query = 'INSERT INTO arbre (code , VH , H , SH) VALUES ("{}","{}","{}","{}")'.format(
+                verif(row['code']), verif(row['VH']), verif(row['H']), verif(row['SH']))
+            cursor.execute(query)
 
-        if row['harv_num'] == "NA":
-            row['harv_num'] = "NULL"
-        if row['DD'] == "NA":
-            row['DD'] = "NULL"
-        if row['harv'] == "NA":
-            row['harv'] = "NULL"
-        if row['Date'] == "NA":
-            row['Date'] = "NULL"
-        if row['Mtot'] == "NA":
-            row['Mtot'] = "NULL"
-        if row['Ntot'] == "NA":
-            row['Ntot'] = "NULL"
-        if row['Ntot1'] == "NA":
-            row['Ntot1'] = "NULL"
-        if row['oneacorn'] == "NA":
-            row['oneacorn'] = "NULL"
-        if row['tot_Germ'] == "NA":
-            row['tot_Germ'] = "NULL"
-        if row['M_Germ'] == "NA":
-            row['M_Germ'] = "NULL"
-        if row['N_Germ'] == "NA":
-            row['N_Germ'] = "NULL"
-        if row['rate_Germ'] == "NA":
-            row['rate_Germ'] = "NULL"
-        cursor.execute('''INSERT INTO recolte (id_r, harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ)
-        VALUES({}, "{}", "{}", "{}", {}, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'''.format(
-            variable3_id, row['harv_num'], row['DD'], row['harv'], row['Year'], row[
-                'Date'], row['Mtot'], row['Ntot'], row['Ntot1'], row['oneacorn'], row['tot_Germ'],
-            row['M_Germ'], row['N_Germ'], row['rate_Germ']))
-        variable3_id = variable3_id+1
+        query = 'INSERT INTO recolte (harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ) VALUES("{}", "{}", "{}", {}, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}")'.format(
+            verif(row['harv_num']), verif(row['DD']), verif(row['harv']), verif(row['Year']), verif(row[
+                'Date']), verif(row['Mtot']), verif(row['Ntot']), verif(row['Ntot1']), verif(row['oneacorn']), verif(row['tot_Germ']),
+            verif(row['M_Germ']), verif(row['N_Germ']), verif(row['rate_Germ']))
+        cursor.execute(query)
 
 
 connexion.commit()
