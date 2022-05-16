@@ -53,6 +53,7 @@ cursor.execute('''
     );
 ''')
 
+# table vallee
 cursor.execute('INSERT INTO vallee (nom) VALUES ("Ossau")')
 cursor.execute('INSERT INTO vallee (nom) VALUES ("Luz")')
 
@@ -70,6 +71,7 @@ with open('Repro_IS.csv', 'r') as csvfile:
 
     for row in reader:
 
+        # table station
         query = 'SELECT id_s FROM station WHERE nom="{}"'.format(
             row['Station'])
         result = cursor.execute(query)
@@ -81,6 +83,7 @@ with open('Repro_IS.csv', 'r') as csvfile:
                 verif(row['Station']), verif(row['Range']), verif(row['Altitude']), cle_id[0])
             cursor.execute(query)
 
+        # table arbre
         query = 'SELECT id_a FROM arbre WHERE code="{}"'.format(row['code'])
         result = cursor.execute(query)
         if result.fetchone() == None:
@@ -91,15 +94,15 @@ with open('Repro_IS.csv', 'r') as csvfile:
                 verif(row['code']), verif(row['VH']), verif(row['H']), verif(row['SH']), cle_id[0])
             cursor.execute(query)
 
-        if row['Ntot'] != 0:
-            cle = cursor.execute('SELECT id_a FROM arbre WHERE code="{}"'.format(
-                row['code']))
-            cle_id = cle.fetchone()
-            query = 'INSERT INTO recolte (harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ, arbre_id) VALUES("{}", "{}", "{}", {}, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}",{})'.format(
-                verif(row['harv_num']), verif(row['DD']), verif(row['harv']), verif(row['Year']), verif(row[
-                    'Date']), verif(row['Mtot']), verif(row['Ntot']), verif(row['Ntot1']), verif(row['oneacorn']), verif(row['tot_Germ']),
-                verif(row['M_Germ']), verif(row['N_Germ']), verif(row['rate_Germ']), cle_id[0])
-            cursor.execute(query)
+        # table recolte
+        cle = cursor.execute('SELECT id_a FROM arbre WHERE code="{}"'.format(
+            row['code']))
+        cle_id = cle.fetchone()
+        query = 'INSERT INTO recolte (harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ, arbre_id) VALUES("{}", "{}", "{}", {}, "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}", "{}",{})'.format(
+            verif(row['harv_num']), verif(row['DD']), verif(row['harv']), verif(row['Year']), verif(row[
+                'Date']), verif(row['Mtot']), verif(row['Ntot']), verif(row['Ntot1']), verif(row['oneacorn']), verif(row['tot_Germ']),
+            verif(row['M_Germ']), verif(row['N_Germ']), verif(row['rate_Germ']), cle_id[0])
+        cursor.execute(query)
 
 
 connexion.commit()
