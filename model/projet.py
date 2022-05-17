@@ -8,14 +8,14 @@ cursor = connexion.cursor()
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS vallee (
     id_v INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL
+    nom_v TEXT NOT NULL
     );
 ''')
 
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS station (
     id_s INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom TEXT NOT NULL,
+    nom_s TEXT NOT NULL,
     range REAL,
     altitude REAL,
     vallee_id INT REFERENCES vallee(id_v)
@@ -54,8 +54,8 @@ cursor.execute('''
 ''')
 
 # table vallee
-cursor.execute('INSERT INTO vallee (nom) VALUES ("Ossau")')
-cursor.execute('INSERT INTO vallee (nom) VALUES ("Luz")')
+cursor.execute('INSERT INTO vallee (nom_v) VALUES ("Ossau")')
+cursor.execute('INSERT INTO vallee (nom_v) VALUES ("Luz")')
 
 
 def verif(value):
@@ -72,14 +72,14 @@ with open('Repro_IS.csv', 'r') as csvfile:
     for row in reader:
 
         # table station
-        query = 'SELECT id_s FROM station WHERE nom="{}"'.format(
+        query = 'SELECT id_s FROM station WHERE nom_s="{}"'.format(
             row['Station'])
         result = cursor.execute(query)
         if result.fetchone() == None:
-            cle = cursor.execute('SELECT id_v FROM vallee WHERE nom="{}"'.format(
+            cle = cursor.execute('SELECT id_v FROM vallee WHERE nom_v="{}"'.format(
                 row['Valley']))
             cle_id = cle.fetchone()
-            query = 'INSERT INTO station (nom , range , altitude, vallee_id) VALUES ("{}",{},{},{})'.format(
+            query = 'INSERT INTO station (nom_s , range , altitude, vallee_id) VALUES ("{}",{},{},{})'.format(
                 verif(row['Station']), verif(row['Range']), verif(row['Altitude']), cle_id[0])
             cursor.execute(query)
 
@@ -87,7 +87,7 @@ with open('Repro_IS.csv', 'r') as csvfile:
         query = 'SELECT id_a FROM arbre WHERE code="{}"'.format(row['code'])
         result = cursor.execute(query)
         if result.fetchone() == None:
-            cle = cursor.execute('SELECT id_s FROM station WHERE nom="{}"'.format(
+            cle = cursor.execute('SELECT id_s FROM station WHERE nom_s="{}"'.format(
                 row['Station']))
             cle_id = cle.fetchone()
             query = 'INSERT INTO arbre (code , VH , H , SH, station_id) VALUES ("{}","{}","{}","{}",{})'.format(
