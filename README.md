@@ -21,9 +21,14 @@ La ligne noire représente une corrélation de le relation des deux données, et
 De plus, la taille de chaque bulle est proportionnelle au pourcentage de ratio de glands qui ont germé en % (rate_Germ).
 Enfin, on peut aussi varier la visualisation de ces données en modifiant par True ou False pour log_x et log_y.
 
-La troisième représentation graphique est l'Animation : selon la vallée, on accède à un premier graphique avec des points repésentant chaqun une station selon le volume du houppier en fonction de la hauteur de l'arbre.
+La troisième représentation graphique est l'Animation interactive : selon la vallée, on accède à un premier graphique avec des points repésentant chaqun une station selon le volume du houppier en fonction de la hauteur de l'arbre.
 Lorsque l'on se place sur un point, des données se mettent à jour sur les deux graphiques complémentaires :
 - celui du haut représente l'avancée de la station pour la hauteur de ses arbres au fil des années;
 - ceui du bas représente l'avancée de la station pour ses volumes des houppiers au fil des années.
 L'interaction entre la souris qui se place sur les points et les deux graphiques mis à jour sont intéressants.
 De plus, il est possible de zoomer sur les points du graphique pour ajouter la précision.
+
+Nous avions fait une quatrième représentation que nous avons mis en commentaire dans le code mais qui ne fonctionne pas, nous avons mis ce code en commentaire pour que vous puissiez tout de même lire ce code.
+Il s'agissait d'un box plot ou nous pouvions choisir les paramètres (H,VH,SH) et des années dans le dropdown, on affichait un box plot par station dans le graphique. 
+
+
