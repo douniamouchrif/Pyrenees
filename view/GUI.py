@@ -64,3 +64,9 @@ def create_time_series(dff, k):
     fig.update_layout(height=225, margin={'l': 20, 'b': 30, 'r': 10, 't': 10})
 
     return fig
+
+
+def build_graph_box_plot(dataa, year, y):
+    fig = px.box(dataa, x='nom_s', y=y, color='nom_s',
+                 title='Observations – Year {}'.format(year))
+    return fig
