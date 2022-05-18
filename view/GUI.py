@@ -1,5 +1,6 @@
 from dash import dcc
 import plotly.express as px
+from dash import dash_table
 
 
 def build_dropdown_multi(item_list):
@@ -70,3 +71,17 @@ def build_graph_box_plot(dataa, year, y):
     fig = px.box(dataa, x='nom_s', y=y, color='nom_s',
                  title='Observations – Year {}'.format(year))
     return fig
+
+
+def data_table(dataframe):
+    return dash_table.DataTable(data=dataframe.to_dict('records'),
+                                columns=[{"name": i, "id": i}
+                                         for i in dataframe.columns],
+                                page_size=30,
+                                sort_action="native",
+                                sort_mode="multi",
+                                style_data={'whiteSpace': 'normal',
+                                            'height': 'auto'},
+                                editable=True,
+                                id='table_data'
+                                )
