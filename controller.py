@@ -45,6 +45,8 @@ sidebar = html.Div(
                             href="/scatter_chart", active="exact"),
                 dbc.NavLink("Animation",
                             href="/animation", active="exact"),
+                dbc.NavLink("Box-Plot",
+                            href="/box_plot", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -117,13 +119,34 @@ def render_page_content(pathname):
                 dropdown,
                 html.Hr(),
                 graph,
-
             ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-
             html.Div([
                 graph1,
                 graph2
             ], style={'display': 'block', 'width': '49%'})
+        ]
+
+    elif pathname == "/box_plot":
+        dropdown = view.GUI.build_dropdown_multi(model.data.get_year()),
+        graph = dcc.Graph(id="box"),
+        return [
+            html.H1('Observation par Box-Plot',
+                    style={'textAlign': 'center'}),
+            html.Div([
+                html.P("Select a parametre :"),
+                dcc.RadioItems(
+                    id='y-axis',
+                    options=[
+                        {'label': 'Hauteur', 'value': 'H'},
+                        {'label': 'SH', 'value': 'SH'},
+                        {'label': 'Volume du Houpier', 'value': 'VH'}
+                    ],
+                    value='H',
+                ),
+                html.P("Year :"),
+                dropdown,
+                graph
+            ])
         ]
 
 # PIE CHART
@@ -189,6 +212,19 @@ def update_x_timeseries(hoverData):
         station_name = hoverData['points'][0]['hovertext']
         new = model.data.update_hoverData(station_name)
         return view.GUI.create_time_series(new, "VH")
+
+# BOX PLOT
+
+
+@app.callback(Output(component_id='box', component_property='figure'),
+              [Input(component_id='dropdown', component_property='value')],
+              Input("y-axis", "value"))
+def generate_chart(dropdown_values, y):
+    if dropdown_values == None:
+        raise PreventUpdate
+    dataa = model.data.prepare_data_box_plot(dropdown_values)
+    year = list(dropdown_values)
+    return view.GUI.build_graph_box_plot(dataa, year, y)
 
 
 if __name__ == '__main__':
