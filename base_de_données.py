@@ -53,6 +53,33 @@ cursor.execute('''
     );
 ''')
 
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS pyrenees (
+    id_p INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom_v TEXT NOT NULL,
+    nom_s TEXT NOT NULL,
+    range REAL,
+    altitude REAL,
+    code TEXT NOT NULL,
+    VH REAL,
+    H REAL,
+    SH REAL,
+    harv_num REAL,
+    DD REAL,
+    harv REAL,
+    Year INTEGER,
+    Date DATETIME,
+    Mtot REAL,
+    Ntot REAL,
+    Ntot1 REAL,
+    oneacorn REAL,
+    tot_Germ REAL,
+    M_Germ REAL,
+    N_Germ REAL,
+    rate_Germ REAL
+    );
+''')
+
 # table vallee
 cursor.execute('INSERT INTO vallee (nom_v) VALUES ("Ossau")')
 cursor.execute('INSERT INTO vallee (nom_v) VALUES ("Luz")')
@@ -104,6 +131,14 @@ with open('Repro_IS.csv', 'r') as csvfile:
             verif(row['M_Germ']), verif(row['N_Germ']), verif(row['rate_Germ']), cle_id[0])
         cursor.execute(query)
 
+        # table pyrenees
+        query = 'INSERT INTO pyrenees (nom_v, nom_s, range, altitude, code, VH, H, SH, harv_num, DD, harv, Year, Date, Mtot, Ntot, Ntot1, oneacorn, tot_Germ, M_Germ, N_Germ, rate_Germ) VALUES("{}","{}",{},{},"{}","{}","{}","{}","{}","{}","{}",{},"{}","{}","{}","{}","{}","{}","{}","{}","{}")'.format(
+            verif(row['Valley']), verif(row['Station']), verif(row['Range']), verif(
+                row['Altitude']), verif(row['code']), verif(row['VH']), verif(row['H']), verif(row['SH']),
+            verif(row['harv_num']), verif(row['DD']), verif(row['harv']), verif(row['Year']), verif(
+                row['Date']), verif(row['Mtot']), verif(row['Ntot']), verif(row['Ntot1']),
+            verif(row['oneacorn']), verif(row['tot_Germ']), verif(row['M_Germ']), verif(row['N_Germ']), verif(row['rate_Germ']))
+        cursor.execute(query)
 
 connexion.commit()
 connexion.close()
