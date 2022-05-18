@@ -53,3 +53,18 @@ def prepare_data_comp():
     query = "SELECT H , VH , Year FROM pyrenees"
     df = pd.read_sql(query, connexion)
     return df
+
+
+def update_scatter(value_vallee):
+    connexion = sqlite3.connect('Pyrenees.db')
+    query = 'SELECT pyrenees.H , pyrenees.VH , pyrenees.Year , pyrenees.nom_s , pyrenees.nom_v FROM pyrenees WHERE pyrenees.nom_v = "{}"'.format(
+        value_vallee)
+    df = pd.read_sql(query, connexion)
+    return df
+
+
+def update_hoverData(x):
+    connexion = sqlite3.connect('Pyrenees.db')
+    query = 'SELECT * FROM pyrenees WHERE nom_s = "{}"'.format(x)
+    df = pd.read_sql(query, connexion)
+    return df
