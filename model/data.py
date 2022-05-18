@@ -8,6 +8,11 @@ def get_year():
     return [v[0] for v in pd.read_sql('SELECT DISTINCT Year FROM recolte', connexion).values]
 
 
+def get_vallee():
+    connexion = sqlite3.connect('Pyrenees.db')
+    return [v[0] for v in pd.read_sql('SELECT DISTINCT nom_v FROM vallee', connexion).values]
+
+
 def prepare_data_pie_chart(year_list):
     if year_list == None:
         raise PreventUpdate
@@ -41,3 +46,10 @@ def prepare_data_scatter(year_list):
 
         data = pd.read_sql(query, connexion)
         return data
+
+
+def prepare_data_comp():
+    connexion = sqlite3.connect('Pyrenees.db')
+    query = "SELECT H , VH , Year FROM pyrenees"
+    df = pd.read_sql(query, connexion)
+    return df
