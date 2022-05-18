@@ -24,3 +24,20 @@ def prepare_data_pie_chart(year_list):
 
         df = pd.read_sql(query, connexion)
         return df
+
+
+def prepare_data_scatter(year_list):
+    if year_list == None:
+        raise PreventUpdate
+    else:
+        connexion = sqlite3.connect('Pyrenees.db')
+        if len(year_list) == 1:
+            year = year_list[0]
+            query = "SELECT SH, Year, Ntot, nom_v, nom_s, rate_Germ FROM pyrenees WHERE rate_Germ != 'null' AND Year={}".format(
+                year)
+        else:
+            query = "SELECT SH, Year, Ntot, nom_v, nom_s, rate_Germ FROM pyrenees WHERE rate_Germ != 'null' AND Year IN {}".format(
+                tuple(year_list))
+
+        data = pd.read_sql(query, connexion)
+        return data
