@@ -39,6 +39,8 @@ sidebar = html.Div(
         ),
         dbc.Nav(
             [
+                dbc.NavLink("Tableur",
+                            href="/table", active="exact"),
                 dbc.NavLink("Pie-Chart",
                             href="/pie_chart", active="exact"),
                 dbc.NavLink("Scatter-Chart",
@@ -69,16 +71,16 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
-    '''if pathname == "/":
-        dropdown = view.GUI.build_dropdown_menu(model.data.get_unique_values())
-        graph = view.GUI.init_graph()
+    if pathname == "/table":
         return [
-            html.Div([
-                dropdown, graph
-            ])
-        ]'''
+            html.H1('Données forêt pyrénnées (tableur)', id='table_view',
+                    style={'textAlign': 'left'}),
+            html.Hr(style={'width': '75%', 'align': 'center'}),
+            html.Div(id='data_table', children=view.GUI.data_table(
+                model.data.get_data_table()))
+        ]
 
-    if pathname == "/pie_chart":
+    elif pathname == "/pie_chart":
         dropdown = view.GUI.build_dropdown_multi(model.data.get_year())
         graph = dcc.Graph(id='pie_chart')
         return [
