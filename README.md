@@ -3,6 +3,8 @@ PROJET : GESTION DE DONNEES MASSIVES
 ABARKAN Suhaila & MOUCHRIF Dounia
 CMI ISI L2
 
+Voici le lien de notre site : https://suhailaabarkan.pythonanywhere.com/table 
+
 Le but de ce projet était de nous faire découvrir comment gérer des données en masse, et comment les exploiter afin de pouvoir en déduire des résultats intéressants.
 
 Notre site est constitué d'un tableur afin de visualiser toutes les données réunies dans une seule table pyrenees, puis de 3 représentations graphiques.
