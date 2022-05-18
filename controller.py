@@ -47,8 +47,6 @@ sidebar = html.Div(
                             href="/scatter_chart", active="exact"),
                 dbc.NavLink("Animation",
                             href="/animation", active="exact"),
-                dbc.NavLink("Box-Plot",
-                            href="/box_plot", active="exact"),
             ],
             vertical=True,
             pills=True,
@@ -128,7 +126,7 @@ def render_page_content(pathname):
             ], style={'display': 'block', 'width': '49%'})
         ]
 
-    elif pathname == "/box_plot":
+    '''elif pathname == "/box_plot":
         dropdown = view.GUI.build_dropdown_multi(model.data.get_year()),
         graph = dcc.Graph(id="box"),
         return [
@@ -149,7 +147,7 @@ def render_page_content(pathname):
                 dropdown,
                 graph
             ])
-        ]
+        ]'''
 
 # PIE CHART
 
@@ -215,7 +213,8 @@ def update_x_timeseries(hoverData):
         new = model.data.update_hoverData(station_name)
         return view.GUI.create_time_series(new, "VH")
 
-# BOX PLOT
+
+'''# BOX PLOT
 
 
 @app.callback(Output(component_id='box', component_property='figure'),
@@ -226,7 +225,7 @@ def generate_chart(dropdown_values, y):
         raise PreventUpdate
     dataa = model.data.prepare_data_box_plot(dropdown_values)
     year = list(dropdown_values)
-    return view.GUI.build_graph_box_plot(dataa, year, y)
+    return view.GUI.build_graph_box_plot(dataa, year, y)'''
 
 
 if __name__ == '__main__':

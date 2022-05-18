@@ -70,7 +70,7 @@ def update_hoverData(x):
     return df
 
 
-def prepare_data_box_plot(year_list):
+'''def prepare_data_box_plot(year_list):
     if year_list == None:
         raise PreventUpdate
     else:
@@ -85,7 +85,7 @@ def prepare_data_box_plot(year_list):
                 tuple(year_list))
 
         df = pd.read_sql(query, connexion)
-        return df
+        return df'''
 
 
 def get_data_table():

@@ -67,10 +67,10 @@ def create_time_series(dff, k):
     return fig
 
 
-def build_graph_box_plot(dataa, year, y):
+'''def build_graph_box_plot(dataa, year, y):
     fig = px.box(dataa, x='nom_s', y=y, color='nom_s',
                  title='Observations – Year {}'.format(year))
-    return fig
+    return fig'''
 
 
 def data_table(dataframe):
