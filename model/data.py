@@ -86,3 +86,10 @@ def prepare_data_box_plot(year_list):
 
         df = pd.read_sql(query, connexion)
         return df
+
+
+def get_data_table():
+    connexion = sqlite3.connect('Pyrenees.db')
+    query = "SELECT * FROM pyrenees"
+    df = pd.read_sql(query, connexion)
+    return df
