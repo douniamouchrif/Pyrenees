@@ -30,6 +30,24 @@ def build_scatter(df, year):
     return fig
 
 
+def build_new_scatter(df):
+    fig = px.scatter(df, x='H',
+                     y='VH',
+                     hover_name="nom_s"
+                     )
+
+    fig.update_xaxes(title="Hauteur de l'arbre ",
+                     type='linear')
+
+    fig.update_yaxes(title="Volume de houppier",
+                     type='linear')
+
+    fig.update_layout(
+        margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
+
+    return fig
+
+
 def create_time_series(dff, k):
 
     fig = px.scatter(dff, x='Year', y=k)
