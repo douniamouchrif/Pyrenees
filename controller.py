@@ -9,9 +9,12 @@ import view.GUI
 
 import plotly.express as px
 import pandas as pd
+from flask import Flask
 
+server = Flask(__name__)
+app = dash.Dash(__name__, server=server, suppress_callback_exceptions=True,
+                external_stylesheets=[dbc.themes.SKETCHY])
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SKETCHY])
 
 SIDEBAR_STYLE = {
     "position": "fixed",
