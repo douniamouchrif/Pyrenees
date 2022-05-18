@@ -8,11 +8,10 @@ import model.data
 import view.GUI
 
 import plotly.express as px
-import sqlite3
 import pandas as pd
 
 
-app = dash.Dash()
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SKETCHY])
 
 SIDEBAR_STYLE = {
     "position": "fixed",
@@ -68,6 +67,15 @@ app.layout = html.Div([
     [Input("url", "pathname")]
 )
 def render_page_content(pathname):
+    '''if pathname == "/":
+        dropdown = view.GUI.build_dropdown_menu(model.data.get_unique_values())
+        graph = view.GUI.init_graph()
+        return [
+            html.Div([
+                dropdown, graph
+            ])
+        ]'''
+
     if pathname == "/pie_chart":
         dropdown = view.GUI.build_dropdown_multi(model.data.get_year())
         graph = dcc.Graph(id='pie_chart')
@@ -125,7 +133,8 @@ def render_page_content(pathname):
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
     if dropdown_values == None:
-        raise PreventUpdate
+        dataa = model.data.prepare_data_pie_chart([2014])
+        return view.GUI.build_graph_pie_chart(dataa, [2014])
     dataa = model.data.prepare_data_pie_chart(dropdown_values)
     year = list(dropdown_values)
     return view.GUI.build_graph_pie_chart(dataa, year)
@@ -137,7 +146,8 @@ def graph_update(dropdown_values):
               [Input(component_id='dropdown', component_property='value')])
 def graph_update(dropdown_values):
     if dropdown_values == None:
-        raise PreventUpdate
+        df = model.data.prepare_data_scatter([2015])
+        return view.GUI.build_scatter(df, [2015])
     df = model.data.prepare_data_scatter(dropdown_values)
     year = list(dropdown_values)
     return view.GUI.build_scatter(df, year)
@@ -149,25 +159,8 @@ def graph_update(dropdown_values):
     Output('anime', 'figure'),
     Input('dropdown', 'value'))
 def update_graph(value_vallee):
-    connexion = sqlite3.connect('Pyrenees.db')
-    query = 'SELECT pyrenees.H , pyrenees.VH , pyrenees.Year , pyrenees.nom_s , pyrenees.nom_v FROM pyrenees WHERE pyrenees.nom_v = "{}"'.format(
-        value_vallee)
-    df = pd.read_sql(query, connexion)
-    fig = px.scatter(df, x='H',
-                     y='VH',
-                     hover_name="nom_s"
-                     )
-
-    fig.update_xaxes(title="Hauteur de l'arbre ",
-                     type='linear')
-
-    fig.update_yaxes(title="Volume de houppier",
-                     type='linear')
-
-    fig.update_layout(
-        margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
-
-    return fig
+    df = model.data.update_scatter(value_vallee)
+    return view.GUI.build_new_scatter(df)
 
 
 @app.callback(
@@ -175,17 +168,13 @@ def update_graph(value_vallee):
     Input('anime', 'hoverData'))
 def update_y_timeseries(hoverData):
     print(hoverData)
-    connexion = sqlite3.connect('Pyrenees.db')
     if hoverData is None:
-        query = 'SELECT * FROM pyrenees WHERE nom_s = "{}"'.format('Josbaig')
-        df = pd.read_sql(query, connexion)
-        return view.GUI.create_time_series(df, "H")
+        new = model.data.update_hoverData('Josbaig')
+        return view.GUI.create_time_series(new, "H")
     else:
         station_name = hoverData['points'][0]['hovertext']
-        query = 'SELECT * FROM pyrenees WHERE nom_s = "{}"'.format(
-            station_name)
-        df = pd.read_sql(query, connexion)
-        return view.GUI.create_time_series(df, "H")
+        new = model.data.update_hoverData(station_name)
+        return view.GUI.create_time_series(new, "H")
 
 
 @app.callback(
@@ -193,17 +182,13 @@ def update_y_timeseries(hoverData):
     Input('anime', 'hoverData'))
 def update_x_timeseries(hoverData):
     print(hoverData)
-    connexion = sqlite3.connect('Pyrenees.db')
     if hoverData is None:
-        query = 'SELECT * FROM pyrenees WHERE nom_s = "{}"'.format('Josbaig')
-        df = pd.read_sql(query, connexion)
-        return view.GUI.create_time_series(df, "VH")
+        new = model.data.update_hoverData('Josbaig')
+        return view.GUI.create_time_series(new, "VH")
     else:
         station_name = hoverData['points'][0]['hovertext']
-        query = 'SELECT * FROM pyrenees WHERE nom_s = "{}"'.format(
-            station_name)
-        df = pd.read_sql(query, connexion)
-        return view.GUI.create_time_series(df, "VH")
+        new = model.data.update_hoverData(station_name)
+        return view.GUI.create_time_series(new, "VH")
 
 
 if __name__ == '__main__':
